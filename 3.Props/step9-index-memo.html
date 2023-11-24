@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<body>
+<div id="root"></div>
+</body>
+<script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<script type="text/babel">
+
+    /**
+     * ##props
+     * props => {text, text2, ... , textN} 로 인자를 받아도됨 (인자명칭은 원하는대로!)
+     * props.text, props.text2, ..., props.textN => {text} ,{text2}, ..., {textN}
+     */
+    function Btn({ text, changeValue }) {
+        return (
+            <button
+                onClick={changeValue}
+                style={{
+                backgroundColor:"tomato"
+                , color :"white"
+                , padding: "10px 20px"
+                , border: 0
+                , borderRadius:10
+            }}>{text}</button>
+        )
+    }
+
+    const MemorizedBtn = React.memo(Btn); //props가 바뀔때만 render를 한다. 바뀌지않았는데 모두 Render를 한다면 느려질 수도 있지,,,!
+    function  App() {
+        const [value, setValue] = React.useState("Save Changes");
+        const changeValue = () =>  setValue("Revert Changes");
+
+        return (
+            <div>
+                <MemorizedBtn text={value} changeValue={changeValue}/>
+                <MemorizedBtn text="Continue"/>
+            </div>
+        );
+    }
+
+    const root = document.getElementById("root");
+    ReactDOM.render(<App/>,root);
+
+</script>
+</html>
